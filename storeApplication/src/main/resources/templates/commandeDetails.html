@@ -1,0 +1,38 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Détail Commande</title>
+</head>
+<body>
+<h1>Bonjour <span th:text="${customer.firstName}">Client</span></h1>
+
+<h2>Commande : <span th:text="${commande.titre}">Titre</span></h2>
+<br>
+<a th:href="@{/store/commande/imprimer/{id}(id=${commande.id})}">Imprimer la commande</a>
+<br>
+<h3>Lignes de commande</h3>
+
+<ul>
+    <li th:each="ligne : ${commande.lignes}">
+        <span th:text="${ligne.libelle}">Libellé</span>
+
+        <span th:text="${ligne.quantite}">0</span>
+
+        <span th:text="${ligne.quantite * ligne.prixUnitaire} + ' €'">0.0 €</span>
+
+        <a th:href="@{/store/commande/{cid}/deleteLigne/{lid}(cid=${commande.id}, lid=${ligne.id})}">delete</a>
+    </li>
+</ul>
+
+<h3>Ajouter une ligne</h3>
+<form th:action="@{/store/commande/{id}/addLigne(id=${commande.id})}" method="post">
+    Libellé : <input type="text" name="libelle" required> <br>
+    Quantité : <input type="number" name="quantite" required min="1"> <br>
+    Prix Unitaire : <input type="number" step="0.01" name="prixUnitaire" required> <br>
+    <button type="submit">Ajouter</button>
+</form>
+
+<br>
+<a href="/store/storeUser">Retour à mes commandes</a>
+</body>
+</html>

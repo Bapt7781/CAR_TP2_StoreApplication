@@ -1,0 +1,43 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Impression Commande</title>
+  <style>
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid black; padding: 8px; text-align: left; }
+    .total-row { font-weight: bold; background-color: #f0f0f0; }
+  </style>
+</head>
+<body>
+
+<h1>Commande travail</h1>
+
+<h3>Client : <span th:text="${customer.firstName} + ' ' + ${customer.lastName}">Prénom Nom</span></h3>
+
+<table>
+  <thead>
+  <tr>
+    <th>Libellé</th>
+    <th>Quantité</th>
+    <th>Prix Unitaire</th>
+    <th>Prix Total</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="ligne : ${commande.lignes}">
+    <td th:text="${ligne.libelle}">Produit</td>
+    <td th:text="${ligne.quantite}">0</td>
+    <td th:text="${ligne.prixUnitaire} + ' €'">0 €</td>
+    <td th:text="${ligne.quantite * ligne.prixUnitaire} + ' €'">0 €</td>
+  </tr>
+
+  <tr class="total-row">
+    <td colspan="3" style="text-align: right;">Total commande :</td>
+    <td th:text="${totalGlobal} + ' €'">0 €</td>
+  </tr>
+  </tbody>
+</table>
+
+
+</body>
+</html>
