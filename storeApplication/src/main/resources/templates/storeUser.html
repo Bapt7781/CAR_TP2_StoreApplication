@@ -10,6 +10,10 @@
         <button type="submit">Se déconnecter</button>
     </form>
     <br>
+    <div th:if="${successMessage}" class="alert alert-success" style="color: green; font-weight: bold; border: 1px solid green; padding: 10px; margin-bottom: 10px;">
+        <span th:text="${successMessage}"></span>
+    </div>
+    <br>
     <h1>Liste des commandes</h1>
     <ul>
         <li th:each="commande : ${commandes}">

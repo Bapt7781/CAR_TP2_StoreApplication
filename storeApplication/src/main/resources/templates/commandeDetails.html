@@ -5,7 +5,9 @@
 </head>
 <body>
 <h1>Bonjour <span th:text="${customer.firstName}">Client</span></h1>
-
+<br>
+<a href="/store/storeUser">Retour à mes commandes</a>
+<br>
 <h2>Commande : <span th:text="${commande.titre}">Titre</span></h2>
 <br>
 <a th:href="@{/store/commande/imprimer/{id}(id=${commande.id})}">Imprimer la commande</a>
@@ -33,6 +35,11 @@
 </form>
 
 <br>
-<a href="/store/storeUser">Retour à mes commandes</a>
+<h2>Passer la commande</h2>
+<form th:action="@{/store/commande/{id}/finalize(id=${commande.id})}" method="post">
+    <button type="submit">
+        Valider la commande
+    </button>
+</form>
 </body>
 </html>

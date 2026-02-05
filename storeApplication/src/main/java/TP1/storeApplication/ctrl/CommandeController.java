@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
@@ -27,18 +27,20 @@ public class CommandeController {
     }
 
     @GetMapping("/store/storeUser")
-    public ModelAndView showCommandes(HttpSession session) {
+    public String showCommandes(HttpSession session, Model model) {
 
         Customer customer = (Customer) session.getAttribute("customer");
 
         if (customer == null) {
-            return new ModelAndView("/store/home");
+            return "/store/home";
         }
 
-            List<Commande> mesCommandes = commandeService.getCommandesByCustomer(customer);
-            var model = Map.of("commandes", mesCommandes);
-            return new ModelAndView("storeUser", model);
+        List<Commande> mesCommandes = commandeService.getCommandesByCustomer(customer);
+        model.addAttribute("commandes", mesCommandes);
 
+
+
+        return "storeUser";
     }
 
     @GetMapping("/store/commande/{id}")
@@ -93,5 +95,18 @@ public class CommandeController {
         model.addAttribute("totalGlobal", totalGlobal);
 
         return "commandePrint";
+    }
+
+    @PostMapping("/store/commande/{id}/finalize")
+    public RedirectView finalizeCommande(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+        Customer customer = (Customer) session.getAttribute("customer");
+
+        if (customer == null) {
+            return new RedirectView("/store/home");
+        }
+
+        redirectAttributes.addFlashAttribute("successMessage", "Votre commande a été validée avec succès !");
+
+        return new RedirectView("/store/storeUser");
     }
 }
